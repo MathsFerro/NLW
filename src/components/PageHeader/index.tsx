@@ -9,6 +9,7 @@ import './styles.css';
 
 interface PageHeaderProps {
     title: string;
+    description?: string;
 }
 // props.children -> propriedade automatica, que pega o conteudo que está sendo passado dentro do componente
 const PageHeader: React.FunctionComponent<PageHeaderProps> = (props) => {
@@ -24,6 +25,9 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = (props) => {
 
         <div className="header-content">
           <strong>{props.title}</strong>
+          
+          { props.description && <p>{props.description}</p> }
+
 					{props.children}
         </div>			
       </header>
