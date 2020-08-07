@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Import para o href dos botões, para evitar reloading da página quando muda de pagina
 import { Link } from 'react-router-dom'; 
 // Substitui o href="/study" para Link to="/study"
+
+import api from '../../services/api';
 
 
 import logoImg from '../../assets/images/logo.svg';
@@ -16,6 +18,24 @@ import './styles.css';
 // Quando o arquivo é dentro da pasta node_modules, não precisa do ./ no import
 
 function Landing() {
+
+    const [totalConnections, setTotalConnections] = useState(0)
+
+    // useEffect -> É uma função, o primeiro parametro é uma função, que vai conter o api.get etc.. 
+    // o segundo parametro é um array de dependências que basicamente, vai falar quando será disparado o primeiro paramêtro (função) e
+    // sempre que ela mudar, vai executar a primeira função
+    useEffect(() => {
+        api.get('connections')
+            .then(res => {
+                const { total } = res.data
+
+                setTotalConnections(total)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
     return (
         <div id="page-landing">
             <div id="page-landing-content" className="container">
@@ -41,9 +61,9 @@ function Landing() {
                         Dar Aulas
                     </Link>
                 </div>
-                
+
                 <span className="total-connections">
-                    Total de 200 conexões já realizadas 
+                    Total de {totalConnections} conexões já realizadas 
                     <img src={purpleHeartIcon} alt="Coração Roxo"/>
                 </span>
             </div>
